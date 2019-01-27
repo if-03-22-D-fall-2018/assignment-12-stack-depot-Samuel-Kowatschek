@@ -6,34 +6,35 @@ struct DepotImplementation {
 };
 
 Depot create_depot() {
-    Depot depot = (Depot) smalloc(sizeof(DepotImplementation));
-	depot->stack_of_stacks = create_stack();
-    return depot;
+	Depot d = (Depot)smalloc(sizeof(DepotImplementation));
+	d->stack_of_stacks = create_stack();
+	return d;
 }
 
 void delete_depot(Depot depot) {
 	while(get_count(depot->stack_of_stacks) != 0){
-		delete_stack((Stack) pop_stack(depot->stack_of_stacks));
+		delete_stack((Stack)pop_stack(depot->stack_of_stacks));
 	}
 	sfree(depot->stack_of_stacks);
 	sfree(depot);
 }
 
-static void _add_to_new_stack(Depot depot, Product *product);
+static void add_to_stack(Depot depot, Product *product);
+
 void push_depot(Depot depot, Product *product) {
     if (get_count(depot->stack_of_stacks) == 0){
-		_add_to_new_stack(depot, product);
+		add_to_stack(depot, product);
 		return;
     }
-	Stack curr_stack = (Stack) peek_stack(depot->stack_of_stacks);
-	if (get_count(curr_stack) == STACK_SIZE_LIMIT){
-		_add_to_new_stack(depot, product);
+	Stack curr = (Stack) peek_stack(depot->stack_of_stacks);
+	if (get_count(curr) == STACK_SIZE_LIMIT){
+		add_to_stack(depot, product);
 		return;
 	}
-	push_stack(curr_stack, product);
+	push_stack(curr, product);
 }
 
-static void _add_to_new_stack(Depot depot, Product *product) {
+static void add_to_stack(Depot depot, Product *product) {
 	Stack new_stack = create_stack();
 	push_stack(new_stack, product);
 	push_stack(depot->stack_of_stacks, new_stack);
