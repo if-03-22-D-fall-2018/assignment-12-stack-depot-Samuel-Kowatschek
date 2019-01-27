@@ -14,17 +14,18 @@ struct StackImplementation {
 };
 
 Stack create_stack() {
-    Stack stack = (Stack) smalloc(sizeof(StackImplementation));
-    stack->head = 0;
-    stack->count = 0;
-    return stack;
+   Stack s = (Stack) smalloc(sizeof(StackImplementation));
+   s->head = 0;
+   s->count = 0;
+   return s;
 }
 
 void delete_stack(Stack stack) {
-    Node node = stack->head;
-    while (node != 0) {
-        Node tmp = node;
-        node = node->next;
+    Node current = stack->head;
+    Node tmp;
+    while(current != 0){
+        tmp = current;
+        current = current->next;
         sfree(tmp);
     }
     sfree(stack);
