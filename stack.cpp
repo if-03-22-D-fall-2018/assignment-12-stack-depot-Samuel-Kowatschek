@@ -47,16 +47,16 @@ void* pop_stack(Stack stack) {
     if (get_count(stack) == 0){
         return 0;
     }
-    Node top = stack->head;
-    stack->head = top->next;
+    Node tmp = stack->head;
     stack->count--;
-    void* data = top->data;
-    sfree(top);
+    stack->head = stack->head->next;
+    void* data = tmp->data;
+    sfree(tmp);
     return data;
 }
 
 void* peek_stack(Stack stack) {
-    if (get_count(stack) == 0){
+    if (stack == 0){
         return 0;
     }
     return stack->head->data;
