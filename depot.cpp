@@ -17,6 +17,8 @@ void delete_depot(Depot depot) {
 	}
 	sfree(depot->stack_of_stacks);
 	sfree(depot);
+
+	
 }
 
 static void add_to_stack(Depot depot, Product *product);
