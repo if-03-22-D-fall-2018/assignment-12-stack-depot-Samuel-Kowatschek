@@ -32,11 +32,11 @@ void delete_stack(Stack stack) {
 }
 
 void push_stack(Stack stack, void *data) {
-    Node new_node = (Node) smalloc(sizeof(Node));
-    new_node->data = data;
-    new_node->next = stack->head;
-    stack->head = new_node;
-    stack->count++;
+   Node new_node = (Node)smalloc(sizeof(NodeImplementation));
+   new_node->data = data;
+   new_node->next = stack->head;
+   stack->head = new_node;
+   stack->count++;
 }
 
 int get_count(Stack stack) {
