@@ -1,14 +1,15 @@
 #include <stdlib.h>
 #include "stack.h"
 
+typedef struct NodeImplementation* Node;
 
-struct Node {
-    struct Node* next;
+struct NodeImplementation {
+    Node next;
     void* data;
 };
 
 struct StackImplementation {
-    struct Node* head;
+    Node head;
     int count;
 };
 
@@ -20,9 +21,9 @@ Stack create_stack() {
 }
 
 void delete_stack(Stack stack) {
-    struct Node* node = stack->head;
+    Node node = stack->head;
     while (node != 0) {
-        Node *tmp = node;
+        Node tmp = node;
         node = node->next;
         sfree(tmp);
     }
@@ -30,7 +31,7 @@ void delete_stack(Stack stack) {
 }
 
 void push_stack(Stack stack, void *data) {
-    Node* new_node = (Node*) smalloc(sizeof(Node));
+    Node new_node = (Node) smalloc(sizeof(Node));
     new_node->data = data;
     new_node->next = stack->head;
     stack->head = new_node;
@@ -45,7 +46,7 @@ void* pop_stack(Stack stack) {
     if (get_count(stack) == 0){
         return 0;
     }
-    Node* top = stack->head;
+    Node top = stack->head;
     stack->head = top->next;
     stack->count--;
     void* data = top->data;
